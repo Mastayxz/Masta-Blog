@@ -1,6 +1,6 @@
 <form action="{{ route('posts.search') }}" method="GET" class="flex gap-2 items-center">
     <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="Cari..."
-        class="border px-2 py-1 text-sm rounded-full w-28 sm:w-40" />
+        class="border px-2 py-1 text-sm rounded-full w-20 sm:w-40" />
 
     {{-- <select name="category" class="border px-2 py-1 text-sm rounded w-28 sm:w-36">
         <option value="">Kategori</option>

@@ -17,17 +17,18 @@ Route::get('/posts/{slug}', [PostController::class, 'publicShow'])->name('posts.
 Route::get('/posts', [PostController::class, 'publicIndex'])->name('posts.index.public');
 Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('category.posts');
 
-Route::prefix('dashboard')->middleware('auth')->group(function () {
-    Route::get('/ads', [AdsController::class, 'index'])->name('ads.index');
-    Route::post('/ads', [AdsController::class, 'store'])->name('ads.store');
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::prefix('dashboard')->middleware('auth')->group(function () {
+        Route::get('/ads', [AdsController::class, 'index'])->name('ads.index');
+        Route::post('/ads', [AdsController::class, 'store'])->name('ads.store');
 
+    });
+    Route::prefix('dashboard')->middleware('auth')->group(function () {
+        Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
+        Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+
+    });
 });
-Route::prefix('dashboard')->middleware('auth')->group(function () {
-    Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
-    Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
-
-});
-
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

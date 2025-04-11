@@ -12,19 +12,27 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard   *')">
+                    {{-- Dashboard & Posts: tampil untuk semua role --}}
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard*')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts*')">
                         {{ __('Posts') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('ads.index')" :active="request()->routeIs('ads*')">
-                        {{ __('Ads') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('category.index')" :active="request()->routeIs('category*')">
-                        {{ __('Categories') }}
-                    </x-nav-link>
+
+                    {{-- Hanya admin yang bisa lihat Ads & Categories --}}
+                    @if (Auth::user() && Auth::user()->role === 'admin')
+                        <x-nav-link :href="route('ads.index')" :active="request()->routeIs('ads*')">
+                            {{ __('Ads') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('category.index')" :active="request()->routeIs('category*')">
+                            {{ __('Categories') }}
+                        </x-nav-link>
+                    @endif
                 </div>
+
             </div>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
